@@ -159,6 +159,85 @@ Confing example:
     "final": "direct"
   }
 }
+
+A more aggressive config, for sing-box 1.13.21:
+{
+  "log": {
+    "level": "debug",
+    "timestamp": true
+  },
+    "dns": {
+    "servers": [
+      {
+        "tag": "bootstrap",
+        "type": "udp",
+        "server": "1.1.1.1",
+      },
+      {
+        "type": "fakeip",
+        "tag": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      },
+      {
+        "tag": "doh",
+        "type": "https",
+        "server": "your-project-domain",
+        "domain_resolver": "bootstrap",
+        "path": "your-token"
+      }
+    ],
+    "strategy": "ipv4_only",
+    "final": "doh",
+    "disable_cache": false,
+     "rules": [
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "fakeip"
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "interface_name": "tun0",
+      "address": ["172.17.0.1/30"],
+      "mtu": 200,
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "mixed",
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+   "route": {
+    "auto_detect_interface": true,
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      { "port": [853], "outbound": "block" },
+      { "ip_cidr": "0.0.0.0/0", "outbound": "block" }
+    ],
+    "default_domain_resolver": "doh",
+    "final": "direct"
+  }
+}
 ----------------------------------------
 
 ----------------------------------------
