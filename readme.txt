@@ -233,6 +233,7 @@ A more aggressive config, for sing-box 1.13.21, all net requests must through yo
         "protocol": "dns",
         "action": "hijack-dns"
       },
+      {"ip_is_private": true, "outbound": "direct" },
       { "port": [853], "outbound": "block" },
       { "ip_cidr": "0.0.0.0/0", "outbound": "block" }
     ],
