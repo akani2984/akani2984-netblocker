@@ -77,8 +77,10 @@ Some routers supports doh dns. If you point your router's dns to a doh dns, all 
 ----------------------------------------
 
 ----------------------------------------
-Force Apps to use your own DOH DNS:
-You may use sing-box. 
+Force your devices to use your own DOH DNS:
+By default, dns you setted is used by default, not on all conditions.
+
+You may use sing-box to force your devices to use your own doh dns.
 On Linux/MacOS/Windows/OpenWRT, register it as a system service, and make sure it will auto restart less than 1 second when terminated. 
 On  Android/IOS , lock down singbox's VPN.
 Confing example:
@@ -153,14 +155,14 @@ Confing example:
         "protocol": "dns",
         "action": "hijack-dns"
       },
-      { "port": [853], "outbound": "block" }
     ],
     "default_domain_resolver": "doh",
     "final": "direct"
   }
 }
 
-A more aggressive config, for sing-box 1.13.21:
+A more aggressive config, for sing-box 1.13.21, all net requests must through your own doh dns to make:
+
 {
   "log": {
     "level": "debug",
